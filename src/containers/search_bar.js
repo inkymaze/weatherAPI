@@ -13,9 +13,13 @@ export default class SearchBar extends Component {
     this.setState({term: e.target.value});
   }
 
+  onFormSubmit(e) {
+    e.preventDefault();
+  }
+
   render() {
     return (
-      <form className='input-group'>
+      <form className='input-group' onSubmit={this.onFormSubmit}>
         <input
           placeholder='Get a five day forecast in your city of choice'
           className='form-control'
