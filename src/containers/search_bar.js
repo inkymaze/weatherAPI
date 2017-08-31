@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchWeather } from '../actions/index';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
   constructor(props){
     super(props);
     this.state = {term: ''};
     this.onInputChange = this.onInputChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
 
   onInputChange(e) {
-    console.log(e.target.value);
+    
     this.setState({term: e.target.value});
   }
 
   onFormSubmit(e) {
     e.preventDefault();
+    this.props.fetchWeather(this.state.term);
+    // setstate clears the search bar after the form is submitted
+    this.setState({term: ''});
   }
 
   render() {
@@ -33,3 +40,11 @@ export default class SearchBar extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchWeather }, dispatch);
+
+}
+
+// null indicates that this container is not concerned with the state
+export default connect(null, mapDispatchToProps)(SearchBar);
